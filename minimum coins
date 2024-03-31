@@ -1,0 +1,40 @@
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int ind = coins.length - 1;
+        List<List<Integer>> dp = new ArrayList<>();
+        for (int i = 0; i < coins.length; i++) {
+            dp.add(new ArrayList<>());
+            for (int j = 0; j <= amount; j++) {
+                dp.get(i).add(-1);
+            }
+        }
+        int ans = fuf(ind, coins, amount, dp);
+        if (ans >= Integer.MAX_VALUE) {
+            return -1;
+        } else {
+            return ans;
+        }
+    }
+
+    public int fuf(int ind, int[] coins, int target, List<List<Integer>> dp) {
+        if (ind == 0) {
+            if (target % coins[ind] == 0) {
+                return target / coins[ind];
+            } else {
+                return Integer.MAX_VALUE;
+            }
+        }
+        if (dp.get(ind).get(target) != -1) return dp.get(ind).get(target);
+
+        int nottake = fuf(ind - 1, coins, target, dp);
+        int take = Integer.MAX_VALUE;
+        if (coins[ind] <= target) {
+            int subProblem = fuf(ind, coins, target - coins[ind], dp);
+            if (subProblem != Integer.MAX_VALUE) {
+                take = 1 + subProblem;
+            }
+        }
+        dp.get(ind).set(target, Math.min(take, nottake));
+        return dp.get(ind).get(target);
+    }
+}
