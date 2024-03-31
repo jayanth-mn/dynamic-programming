@@ -1,0 +1,38 @@
+class Solution {
+    public int change(int amount, int[] coins) {
+        int ind= coins.length-1;
+        int [][] dp= new int[ind+1][amount+1];
+        for (int i=0; i<ind+1; i++){
+            for (int j=0; j<=amount; j++){
+                dp [i][j]=0;
+            }
+        }
+        for (int t=0; t<=amount; t++){
+            dp[0][t]= (t%coins[0]==0)? 1:0;
+        }
+        for (int in=1; in<ind+1;in++){
+            for(int j=0; j<=amount; j++){
+                int nottake =  dp[in-1] [j];
+                int take =0;
+                if (coins[in]<=j){
+                    take = dp[in][j-coins[in]]; 
+                }
+                dp[in][j]= (take+ nottake);
+                    }
+                }
+                return dp[ind][amount];
+    }
+    public static int fuf(int ind, int amount, int [] coins, int [][] dp){
+        if (ind ==0){
+            if ( amount%coins[0]==0) return 1 ;
+            else return 0;
+        }
+        if (dp[ind][amount] !=-1) return dp[ind][amount];
+        int nottake =  fuf(ind-1, amount, coins, dp);
+        int take =0;
+        if (coins[ind]<=amount){
+            take = fuf(ind,amount-coins[ind], coins, dp);
+        }
+        return dp[ind][amount]= (take+ nottake);
+    }
+}
