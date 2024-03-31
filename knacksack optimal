@@ -1,0 +1,47 @@
+import java.util.* ;
+import java.io.*; 
+
+public class Solution{
+    static int knapsack(int[] weight, int[] value, int n, int maxWeight) {
+
+            
+            int ind= n-1;
+            int [][] dp = new int[n][maxWeight+1];
+            
+            for (int k=weight[0]; k<=maxWeight; k++){
+                    dp[0][k]=value[0];
+
+            }
+            for (int m=1; m<n;m++){
+                for (int l=0; l<=maxWeight; l++){
+                     int nottake =0+ dp[m-1][l];
+                int take=Integer.MIN_VALUE;;
+                if(weight[m]<=l){
+                    take = value[m]+dp[m-1] [l-weight[m]] ;
+                }
+                dp[m][l]=Math.max(take,nottake);
+                
+                }
+            }
+            return dp[n-1][maxWeight];
+    }
+    public static int fuf(int ind, int [] weight, int [] value, int maxWeight, int [][] dp){
+
+        if (ind ==0){
+            if(weight[0]<=maxWeight){
+                return value[0];
+            }
+            else{
+                return 0;
+            }
+        }
+        if (dp[ind][maxWeight]!=-1) return dp[ind][maxWeight];
+        int nottake =0+ fuf(ind-1, weight, value, maxWeight, dp);
+        int take=0;
+        if(weight[ind]<maxWeight){
+            take = value[ind]+fuf(ind-1, weight, value, maxWeight-weight[ind],dp);
+        }
+        dp[ind][maxWeight]=Math.max(take,nottake);
+        return dp[ind][maxWeight];
+    }
+}
