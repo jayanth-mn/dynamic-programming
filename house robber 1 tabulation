@@ -1,0 +1,24 @@
+class Solution {
+    
+    public int rob(int[] nums) {
+        
+        int ind = nums.length -1;
+        int [] dp = new int [ind+1];
+        
+        
+        for (int i=0; i<=ind; i++){
+            dp[i] = -1;
+        }
+        dp[0] = nums[0];
+        
+        for (int j=1; j<=ind; j++){
+            int  f1 =  nums[j];
+            if(j>1) f1+= dp[j-2];
+            int  f2 = dp[j-1] ;
+            dp[j]= Math.max(f1, f2);
+        }
+
+
+        return dp[ind];
+    }
+}
