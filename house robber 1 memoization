@@ -1,0 +1,21 @@
+class Solution {
+    public int fuf(int ind, int [] nums, int [] dp){
+        if (ind ==0) return dp[0]=nums[0];
+        if( ind<0) return 0;
+        
+        if (dp[ind]!= -1) return dp[ind];
+        int  f1 =  nums[ind] + fuf(ind-2, nums, dp) ;
+        int  f2 = fuf(ind-1, nums, dp) ;
+        return dp[ind] =Math.max(f1, f2);
+
+    }
+    public int rob(int[] nums) {
+        
+        int ind = nums.length -1;
+        int [] dp = new int [ind+1];
+        for (int i=0; i<=ind; i++){
+            dp[i] = -1;
+        }
+        return fuf(ind, nums, dp);
+    }
+}
