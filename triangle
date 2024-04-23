@@ -1,0 +1,23 @@
+class Solution {
+    public int fuf(int n, int ind, int j, List<List<Integer>> triangle, int [][] dp){
+        if (ind == n-1) return triangle.get(n-1).get(j);
+        if (dp[ind][j] != -1) return dp[ind][j];
+        int f1 = triangle.get(ind).get(j) + fuf(n, ind+1, j, triangle, dp);
+        int f2 = triangle.get(ind).get(j) + fuf(n, ind+1, j+1, triangle, dp);
+
+        return dp[ind][j] = Math.min(f1,f2);
+    }
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        int ind = 0;
+        int j=0;
+        int [][] dp = new int[n][n+1];
+        for (int i = 0; i< n; i++){
+            for (int k=0; k<n+1; k++){
+                dp[i][k] = -1;
+            }
+        }
+
+        return fuf(n, ind, j,  triangle, dp);
+    }
+}
